@@ -1,3 +1,10 @@
+import {
+  PROVISORIO_REGEX_USERNAME,
+  TAMANHO_MAX_USERNAME,
+  TAMANHO_MIN_USERNAME,
+  USERNAME_PADRAO
+} from "../config/index.js";
+
 /**
  * @returns {{ valido: boolean, erro?: string, codigoErro?: 'minimo'|'maximo'|'caracteres',
  *             parametros?: object, username?: string, vazio?: boolean }}

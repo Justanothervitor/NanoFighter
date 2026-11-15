@@ -209,14 +209,21 @@ function mostrarTelaUsuario() {
 
   const form = document.createElement('div');
   renderizarEntradaUsername(form, rascunhoNome, (valor) => {
+    console.log('[nome] clique, valor =', JSON.stringify(valor));
     const resultado = validarUsername(valor);
+    console.log('[nome] validação', resultado);
     if (!resultado.valido) {
       return t(`username.erro.${resultado.codigoErro}`, resultado.parametros);
+    }
+    try {
+      iniciarPartida(resultado.username);
+    } catch (err) {
+      console.error('[nome] erro ao iniciar partida:', err);
+      return 'Erro ao iniciar: ' + err.message; // aparece no campo de feedback
     }
     telaUsuario.remove();
     telaUsuario = null;
     rascunhoNome = '';
-    iniciarPartida(resultado.username);
     return null;
   });
 
