@@ -1,5 +1,4 @@
 infra
-dist
 node_modules
 .claude
 .idea
