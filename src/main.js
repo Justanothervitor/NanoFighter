@@ -17,7 +17,7 @@ import { montarRanking } from './dominio/ranking.js';
 import { salvarPontuacaoSessao } from './dados/sessao.js';
 import { renderizarRanking } from './ui/ranking.js';
 import {renderizarEntradaUsername} from "./ui/index.js";
-import {TAMANHO_MIN_USERNAME, TAMANHO_MAX_USERNAME, USERNAME_PADRAO, FASE_INICIAL} from "./config/index.js";
+import {FASE_INICIAL} from "./config/index.js";
 import {validarUsername} from "./dominio/username.js";
 
 // Cache dos jogadores simulados do ranking
@@ -178,25 +178,32 @@ atualizarInterface();
 console.info('Project NanoFighter - Etapa P2 carregada.');
 
 let telaUsuario = null;
+let rascunhoNome = '';
 
 function mostrarTelaUsuario() {
+  // Guarda o que o jogador já digitou antes de refazer a tela (troca de idioma)
+  const digitado = telaUsuario?.querySelector('input')?.value;
+  if (digitado !== undefined) rascunhoNome = digitado;
   if (telaUsuario) telaUsuario.remove();
 
   telaUsuario = document.createElement('div');
   telaUsuario.className = 'tela-usuario';
   telaUsuario.setAttribute('role', 'dialog');
   telaUsuario.setAttribute('aria-modal', 'true');
-  telaUsuario.setAttribute('aria-label', 'Escolha seu nome de usuário');
+  telaUsuario.setAttribute('aria-label', t('username.titulo'));
 
   const titulo = document.createElement('h2');
   titulo.textContent = 'NanoFighter';
 
   const form = document.createElement('div');
-  renderizarEntradaUsername(form, USERNAME_PADRAO, (valor) => {
+  renderizarEntradaUsername(form, rascunhoNome, (valor) => {
     const resultado = validarUsername(valor);
-    if (!resultado.valido) return resultado.erro;
+    if (!resultado.valido) {
+      return t(`username.erro.${resultado.codigoErro}`, resultado.parametros);
+    }
     telaUsuario.remove();
     telaUsuario = null;
+    rascunhoNome = '';
     iniciarPartida(resultado.username);
     return null;
   });

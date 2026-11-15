@@ -1,26 +1,13 @@
-/**
- * Renderizador da interface de batalha e cartas de medicamentos.
- * RF56: Destaque visual alternável por A/D.
- * RF58: Escolha por clique do mouse no desktop.
- * RF59: Escolha por toque na carta em dispositivos móveis.
- */
-
 import { escolherMedicamento, obterIndiceSelecionado } from '../dominio/batalha.js';
 import { obterRepresentacaoBacteria } from './bacteria.js';
 import { renderizarCartasMedicamento } from './cartas.js';
+import { t } from '../i18n/index.js';
 
-/**
- * Renderiza o painel de confronto e as opções de medicamentos.
- * @param {HTMLElement} container
- * @param {object} estado
- * @param {object} [opcoes={}]
- */
 export function renderizarBatalha(container, estado, opcoes = {}) {
   if (!container) return;
 
   const fnEscolher = opcoes.escolherMedicamento || escolherMedicamento;
 
-  // Se não estiver em confronto, oculta a interface de batalha
   if (!estado.confronto) {
     container.innerHTML = '';
     container.style.display = 'none';
@@ -31,39 +18,39 @@ export function renderizarBatalha(container, estado, opcoes = {}) {
   container.style.display = 'block';
   container.className = 'painel-batalha';
   container.setAttribute('role', 'region');
-  container.setAttribute('aria-label', 'Painel de Batalha');
+  container.setAttribute('aria-label', t('batalha.painel'));
 
-  const cabecalho = document.createElement('div');
-  cabecalho.className = 'batalha-cabecalho';
   const bact = estado.confronto.bacteria;
   const infoBact = obterRepresentacaoBacteria(bact.cor);
 
-  cabecalho.innerHTML = `
-    <h3>Batalha em Andamento</h3>
-    <p>Alvo: <span class="bacteria-alvo ${bact.cor}" aria-label="${infoBact.rotuloAcessivel}">Bactéria ${bact.cor} [${infoBact.textoBolinhas} ${infoBact.escala}]</span></p>
-  `;
+  const cabecalho = document.createElement('div');
+  cabecalho.className = 'batalha-cabecalho';
+
+  const titulo = document.createElement('h3');
+  titulo.textContent = t('batalha.titulo');
+
+  const alvo = document.createElement('p');
+  const spanAlvo = document.createElement('span');
+  spanAlvo.className = `bacteria-alvo ${bact.cor}`;
+  spanAlvo.setAttribute('aria-label', infoBact.rotuloAcessivel);
+  spanAlvo.textContent = t('batalha.alvo', {
+    cor: t(`cor.${bact.cor}`),
+    bolinhas: infoBact.textoBolinhas,
+    escala: t(`escala.${infoBact.escala}`),
+  });
+  alvo.appendChild(spanAlvo);
+
+  cabecalho.append(titulo, alvo);
   container.appendChild(cabecalho);
-  const resultado = estado.confronto.resultado;
-  if (resultado) {
-    const msg = document.createElement('p');
-    msg.className = `batalha-resultado batalha-${resultado}`;
-    msg.setAttribute('role', 'status');
-    msg.textContent =
-        resultado === 'vitoria'
-            ? 'Vitória! A bactéria foi eliminada.'
-            : 'Derrota! A bactéria sofreu mutação e você perdeu PV.';
-    container.appendChild(msg);
-    return; // não desenha as cartas: evita cliques durante a mensagem
-  }
 
   const containerCartas = document.createElement('div');
   const indiceDestaque = obterIndiceSelecionado(estado);
 
   renderizarCartasMedicamento(
-    containerCartas,
-    estado.confronto.opcoes,
-    indiceDestaque,
-    (indice) => fnEscolher(indice, opcoes.dependencias)
+      containerCartas,
+      estado.confronto.opcoes,
+      indiceDestaque,
+      (indice) => fnEscolher(indice, opcoes.dependencias)
   );
 
   container.appendChild(containerCartas);

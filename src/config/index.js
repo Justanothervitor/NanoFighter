@@ -177,8 +177,8 @@ export const PROVISORIO_COR_PONTOS_NO_MOMENTO_DA_DERROTA = true;
 export const TOP_RANKING_MAXIMO = 10;
 
 // Caminho padrão para o arquivo CSV de pontuações simuladas (RF42)
-//export const CAMINHO_CSV_RANKING = '../../public/data/pontuaçãoMockada.csv';
-export const CAMINHO_CSV_RANKING = './data/pontuaçãoMockada.csv';
+//export const CAMINHO_CSV_RANKING = '../../public/data/pontuacaoMockada.csv';
+export const CAMINHO_CSV_RANKING = './data/pontuacaoMockada.csv';
 
 // PROVISÓRIO: aguardando confirmação do critério de desempate no ranking (adotada ordem de chegada)
 export const PROVISORIO_CRITERIO_DESEMPATE_RANKING = 'ordem_chegada';

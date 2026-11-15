@@ -36,12 +36,12 @@ NanoHero,1200`;
       text: async () => `nomeJogador,pontuacao\nBioGuard,1500\nNanoHero,1200`,
     });
 
-    const lista = await carregarSimulados('/data/pontuaçãoMockada.csv', {
+    const lista = await carregarSimulados('/data/pontuacaoMockada.csv', {
       fetch: fetchMock,
       forcarRecarga: true,
     });
 
-    expect(fetchMock).toHaveBeenCalledWith('/data/pontuaçãoMockada.csv');
+    expect(fetchMock).toHaveBeenCalledWith('/data/pontuacaoMockada.csv');
     expect(lista.length).toBe(2);
 
     // Erro HTTP 404
@@ -58,8 +58,8 @@ NanoHero,1200`;
     ).rejects.toThrow('Falha HTTP ao carregar');
   });
 
-  it('critério de aceitação: o arquivo public/data/pontuaçãoMockada.csv físico contém 10 jogadores com 3 a 8 caracteres', () => {
-    const caminhoReal = path.resolve(process.cwd(), 'public/data/pontuaçãoMockada.csv');
+  it('critério de aceitação: o arquivo public/data/pontuacaoMockada.csv físico contém 10 jogadores com 3 a 8 caracteres', () => {
+    const caminhoReal = path.resolve(process.cwd(), 'public/data/pontuacaoMockada.csv');
     const conteudoReal = fs.readFileSync(caminhoReal, 'utf-8');
 
     const lista = parsearCsvRanking(conteudoReal);

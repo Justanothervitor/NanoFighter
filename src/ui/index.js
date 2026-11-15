@@ -312,6 +312,23 @@ export function injetarEstilosBase() {
 .tela-usuario input { padding: 0.5rem; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #f8fafc; }
 .erro-username { color: #ff6b6b; min-height: 1.2em; }
 .feedback-username { color: #ff6b6b; width: 100%; text-align: center; }
+.seletor-idioma {
+  position: fixed;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1200;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.seletor-idioma select {
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  padding: 0.2rem;
+}
   `;
   document.head.appendChild(style);
 }

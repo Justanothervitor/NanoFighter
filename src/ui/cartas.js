@@ -2,24 +2,19 @@
  * Componente visual de cartas de medicamento (RF19, RF56, RF58, RF59, RNF10).
  */
 
-/**
- * Formata os dados de exibição de uma carta de medicamento.
- * Função pura desacoplada do DOM.
- *
- * @param {{ nome: string, eficacia: number }} medicamento
- * @param {number} indice 0 ou 1
- * @param {boolean} destacado Se a carta está atualmente selecionada pelo teclado
- * @returns {{ nome: string, eficaciaPercentual: string, atalho: string, destacado: boolean, rotuloAcessivel: string }}
- */
+import { t, nomeMedicamento } from '../i18n/index.js';
+
 export function formatarDadosCarta(medicamento, indice, destacado = false) {
-  const nome = medicamento?.nome || `Medicamento ${indice + 1}`;
+  const nome = medicamento?.nome
+      ? nomeMedicamento(medicamento.nome)
+      : t('carta.padrao', { numero: indice + 1 });
   const valorEficacia = typeof medicamento?.eficacia === 'number' ? medicamento.eficacia : 0.5;
   const eficaciaPercentual = `${Math.round(valorEficacia * 100)}%`;
   const atalho = indice === 0 ? 'A' : 'D';
 
-  const rotuloAcessivel = `${nome}, eficácia de ${eficaciaPercentual}, atalho tecla ${atalho}. ${
-    destacado ? 'Atualmente selecionado.' : ''
-  }`;
+  const rotuloAcessivel =
+      t('carta.rotulo', { nome, eficacia: eficaciaPercentual, tecla: atalho }) +
+      (destacado ? ' ' + t('carta.selecionada') : '');
 
   return {
     nome,
@@ -30,19 +25,11 @@ export function formatarDadosCarta(medicamento, indice, destacado = false) {
   };
 }
 
-/**
- * Renderiza o conjunto de 2 cartas de medicamentos em batalha (RF19).
- *
- * @param {HTMLElement} container
- * @param {Array<{ nome: string, eficacia: number }>} opcoes
- * @param {number} [indiceSelecionado=0]
- * @param {(indice: number) => void} [aoEscolher=()=>{}]
- */
 export function renderizarCartasMedicamento(
-  container,
-  opcoes = [],
-  indiceSelecionado = 0,
-  aoEscolher = () => {}
+    container,
+    opcoes = [],
+    indiceSelecionado = 0,
+    aoEscolher = () => {}
 ) {
   if (!container) return;
 
@@ -51,8 +38,8 @@ export function renderizarCartasMedicamento(
 
   // Garante a presença exata de 2 cartas para renderização
   const duasOpcoes = opcoes && opcoes.length === 2 ? opcoes : [
-    { nome: 'Opção 1', eficacia: 0.5 },
-    { nome: 'Opção 2', eficacia: 0.5 },
+    { nome: '', eficacia: 0.5 },
+    { nome: '', eficacia: 0.5 },
   ];
 
   duasOpcoes.forEach((med, indice) => {
@@ -66,11 +53,23 @@ export function renderizarCartasMedicamento(
     carta.setAttribute('aria-selected', String(dados.destacado));
     carta.setAttribute('aria-label', dados.rotuloAcessivel);
 
-    carta.innerHTML = `
-      <div class="carta-titulo">${dados.nome}</div>
-      <div class="carta-eficacia">Eficácia: <strong>${dados.eficaciaPercentual}</strong></div>
-      <div class="carta-atalho" aria-hidden="true">[Teclar ${dados.atalho}]</div>
-    `;
+    const titulo = document.createElement('div');
+    titulo.className = 'carta-titulo';
+    titulo.textContent = dados.nome;
+
+    const eficacia = document.createElement('div');
+    eficacia.className = 'carta-eficacia';
+    eficacia.append(`${t('carta.eficacia')}: `);
+    const forte = document.createElement('strong');
+    forte.textContent = dados.eficaciaPercentual;
+    eficacia.appendChild(forte);
+
+    const atalho = document.createElement('div');
+    atalho.className = 'carta-atalho';
+    atalho.setAttribute('aria-hidden', 'true');
+    atalho.textContent = t('carta.atalho', { tecla: dados.atalho });
+
+    carta.append(titulo, eficacia, atalho);
 
     // RF58: Clique do mouse
     carta.addEventListener('click', (evento) => {
