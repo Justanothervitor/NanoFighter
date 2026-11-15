@@ -329,6 +329,45 @@ export function injetarEstilosBase() {
   border-radius: 4px;
   padding: 0.2rem;
 }
+.tela-tutorial {
+  position: fixed;
+  inset: 0;
+  z-index: 1150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.85);
+  overflow-y: auto;
+}
+.quadro-tutorial {
+  max-width: 28rem;
+  max-height: 100%;
+  overflow-y: auto;
+  background: #1e293b;
+  border: 2px solid #38bdf8;
+  border-radius: 8px;
+  padding: 1rem;
+  color: #f8fafc;
+}
+.quadro-tutorial h2 { margin-bottom: 0.75rem; color: #38bdf8; }
+.quadro-tutorial h3 { font-size: 1rem; margin-top: 0.75rem; color: #facc15; }
+.quadro-tutorial p { font-size: 0.9rem; line-height: 1.4; color: #cbd5e1; }
+.botao-fechar-tutorial { margin-top: 1rem; padding: 0.6rem 1.2rem; cursor: pointer; }
+.botao-ajuda {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1200;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: #f8fafc;
+  font-weight: bold;
+  cursor: pointer;
+}
   `;
   document.head.appendChild(style);
 }

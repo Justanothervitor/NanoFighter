@@ -21,6 +21,7 @@ import {FASE_INICIAL} from "./config/index.js";
 import {validarUsername} from "./dominio/username.js";
 import {assinarIdioma, t} from "./i18n/index.js"
 import {criarSeletorIdioma} from "./ui/idioma.js";
+import {abrirTutorial, criarBotaoAjuda, tutorialJaVisto} from "./ui/tutorial.js";
 
 // Cache dos jogadores simulados do ranking
 let simuladosRanking = [];
@@ -234,7 +235,10 @@ function mostrarTelaUsuario() {
 
 mostrarTelaUsuario();
 
+document.body.appendChild(criarBotaoAjuda());
+
 function iniciarPartida(username) {
   reiniciarEstado({ username });
   popularMapaParaFase(FASE_INICIAL);
+  if (!tutorialJaVisto()) abrirTutorial();   // só na primeira vez
 }
