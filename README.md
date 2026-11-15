@@ -1,4 +1,4 @@
-# Project NanoFighter
+#  Project NanoFighter
 
 Jogo web de combate a bactérias para adolescentes e jovens adultos. Funciona no navegador desktop e smartphone, sem backend.
 
@@ -37,3 +37,13 @@ Para visualizar a versão de produção:
 ```bash
 npm run preview
 ```
+
+## Ferramentas utilizadas
+
+Antigravity - Gemini 3.8 flash.
+
+Claude - Sonnet 5.5.
+
+Claude Code - LLM Local, nemotron3.5-bolt.
+
+
