@@ -19,6 +19,8 @@ import { renderizarRanking } from './ui/ranking.js';
 import {renderizarEntradaUsername} from "./ui/index.js";
 import {FASE_INICIAL} from "./config/index.js";
 import {validarUsername} from "./dominio/username.js";
+import {assinarIdioma, t} from "./i18n/index.js"
+import {criarSeletorIdioma} from "./ui/idioma.js";
 
 // Cache dos jogadores simulados do ranking
 let simuladosRanking = [];
@@ -30,6 +32,16 @@ carregarSimulados()
   .catch((err) => {
     console.warn('Aviso: erro ao carregar simulados do ranking:', err);
   });
+
+document.body.appendChild(criarSeletorIdioma());
+
+let dadosFim = null; // preencha em mostrarFimDeJogo: dadosFim = { ranking, username }
+
+assinarIdioma(() => {
+  atualizarInterface();
+  if (telaFim && dadosFim) mostrarFimDeJogo(dadosFim.ranking, dadosFim.username);
+  if (telaUsuario) mostrarTelaUsuario();
+});
 
 // Vincula os subsistemas reativos aos eventos
 let desvincularSorteio = vincularSorteioAosEventos({ medicamentos: MEDICAMENTOS_PADRAO });
