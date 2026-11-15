@@ -4,4 +4,5 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
   },
+  base : "https://justanothervitor.github.io/NanoFighter"
 });
