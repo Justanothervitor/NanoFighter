@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base : './',
   test: {
     environment: 'happy-dom',
   },
-  base : "https://justanothervitor.github.io/NanoFighter"
 });

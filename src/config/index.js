@@ -81,7 +81,7 @@ export const PROVISORIO_PERMITE_REPETICAO_MEDICAMENTO = true;
 export const PROVISORIO_FORMATO_EFICACIA_CSV = 'ambos';
 
 // Caminho padrão para o arquivo CSV de medicamentos
-export const CAMINHO_CSV_MEDICAMENTOS = '../../public/data/medicamentos.csv';
+export const CAMINHO_CSV_MEDICAMENTOS = './data/medicamentos.csv';
 
 // Validação de username
 export const TAMANHO_MIN_USERNAME = 3;
@@ -177,7 +177,7 @@ export const PROVISORIO_COR_PONTOS_NO_MOMENTO_DA_DERROTA = true;
 export const TOP_RANKING_MAXIMO = 10;
 
 // Caminho padrão para o arquivo CSV de pontuações simuladas (RF42)
-export const CAMINHO_CSV_RANKING = '../../public/data/pontuaçãoMockada.csv';
+export const CAMINHO_CSV_RANKING = './data/pontuaçãoMockada.csv';
 
 
 // PROVISÓRIO: aguardando confirmação do critério de desempate no ranking (adotada ordem de chegada)
